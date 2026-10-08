@@ -1187,16 +1187,16 @@ document.getElementById("panelOperador").style.display = "block";
 cargarClientes();
 
 });
+
 document.getElementById("ticketForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const nombre = this.querySelector('input[type="text"]').value.trim();
-    const email = this.querySelector('input[type="email"]').value.trim();
+    const email = this.querySelector('input[type="email"]').value.trim().toLowerCase();
 
     const selects = this.querySelectorAll("select");
     const categoria = selects[0].value;
     const prioridad = selects[1].value;
-
     const descripcion = this.querySelector("textarea").value.trim();
 
     const boton = this.querySelector('button[type="submit"]');
@@ -1204,15 +1204,41 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
     boton.disabled = true;
     boton.textContent = "Enviando...";
 
- const { error } = await supabaseClient
-    .from("tickets")
-    .insert({
-        nombre: nombre,
-        email: email,
-        asunto: categoria + " - Prioridad " + prioridad,
-        descripcion: descripcion,
-        estado: "Abierto"
-    });
+    try {
+        const { data, error } = await supabaseClient.rpc(
+            "crear_ticket_cliente",
+            {
+                p_nombre: nombre,
+                p_email: email,
+                p_asunto: categoria + " - Prioridad " + prioridad,
+                p_descripcion: descripcion
+            }
+        );
+
+        if (error) {
+            console.error(error);
+            alert("No se pudo crear el ticket: " + error.message);
+            return;
+        }
+
+        alert(
+            "✅ ¡Ticket creado correctamente!\n\n" +
+            "Tu número de cliente es: " + data +
+            "\n\n📌 Guardá este número. Lo vas a necesitar " +
+            "junto con tu correo para consultar tus tickets y respuestas."
+        );
+
+        this.reset();
+
+    } catch (error) {
+        console.error(error);
+        alert("Ocurrió un error al enviar el ticket.");
+
+    } finally {
+        boton.disabled = false;
+        boton.textContent = "Enviar Ticket";
+    }
+});
        
     if (error) {
         console.error(error);
