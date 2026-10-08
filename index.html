@@ -1243,7 +1243,6 @@ async function cargarClientes() {
         .order("creado_en", { ascending: false });
 
     if (error) {
-
         console.error(error);
 
         lista.innerHTML = `
@@ -1254,7 +1253,6 @@ async function cargarClientes() {
     }
 
     if (!data || data.length === 0) {
-
         lista.innerHTML = `
             <p>No hay tickets registrados todavía.</p>
         `;
@@ -1292,79 +1290,6 @@ async function cargarClientes() {
             .toLocaleString("es-AR");
 
         lista.innerHTML += `
-
-            <div class="cliente-card">
-
-                <h3>👤 ${cliente.nombre}</h3>
-
-                <p>
-                    <strong>Cliente:</strong>
-                    ${cliente.numero}
-                </p>
-
-                <p>
-                    <strong>📧 Email:</strong>
-                    ${cliente.email || "Sin email"}
-                </p>
-
-                <p>
-                    <strong>🎫 Tickets:</strong>
-                    ${cliente.tickets}
-                </p>
-
-                <p>
-                    <strong>📅 Último ticket:</strong>
-                    ${fecha}
-                </p>
-
-                <button
-                    class="ver-tickets"
-                    onclick="verTickets('${cliente.email}')"
-                >
-                    Ver tickets →
-                </button>
-
-            </div>
-
-        `;
-
-    });
-
-}
-
-    if (!data || data.length === 0) {
-        lista.innerHTML = "<p>No hay tickets registrados todavía.</p>";
-        return;
-    }
-
-    const clientes = {};
-
-    data.forEach(ticket => {
-
-        const numero = ticket.numero_cliente || "Sin número";
-
-        if (!clientes[numero]) {
-
-            clientes[numero] = {
-                numero: numero,
-                nombre: ticket.nombre,
-                email: ticket.email,
-                tickets: 0,
-                ultimo: ticket.creado_en
-            };
-
-        }
-
-        clientes[numero].tickets++;
-    });
-
-    lista.innerHTML = "";
-
-    Object.values(clientes).forEach(cliente => {
-
-        const fecha = new Date(cliente.ultimo).toLocaleString("es-AR");
-
-        lista.innerHTML += `
             <div class="cliente-card">
 
                 <h3>👤 ${cliente.nombre}</h3>
@@ -1398,38 +1323,9 @@ async function cargarClientes() {
 
             </div>
         `;
-    });
-}
 
-        clientes[numero].tickets++;
     });
 
-    lista.innerHTML = "";
-
-    Object.values(clientes).forEach(cliente => {
-
-        const fecha = new Date(cliente.ultimo).toLocaleString("es-AR");
-
-        lista.innerHTML += `
-    <div class="cliente-card">
-
-        <h3>👤 ${cliente.nombre}</h3>
-
-        <p><strong>Cliente:</strong> ${cliente.numero}</p>
-
-        <p><strong>📧 Email:</strong> ${cliente.email || "Sin email"}</p>
-
-        <p><strong>🎫 Tickets:</strong> ${cliente.tickets}</p>
-
-        <p><strong>📅 Último ticket:</strong> ${fecha}</p>
-
-        <button class="ver-tickets" onclick="verTickets('${cliente.email}')">
-            Ver tickets →
-        </button>
-
-    </div>
-`;
-    });
 }
      async function verTickets(email) {
 
