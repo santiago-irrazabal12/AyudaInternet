@@ -1239,24 +1239,6 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
         boton.textContent = "Enviar Ticket";
     }
 });
-       
-    if (error) {
-        console.error(error);
-
-        alert("No se pudo crear el ticket: " + error.message);
-
-        boton.disabled = false;
-        boton.textContent = "Enviar Ticket";
-
-        return;
-    }
-
-    alert("✅ Ticket creado correctamente.");
-    this.reset();
-
-    boton.disabled = false;
-    boton.textContent = "Enviar Ticket";
-});
 async function cargarClientes() {
 
     const lista = document.getElementById("listaClientes");
