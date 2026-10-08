@@ -929,9 +929,7 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
         descripcion: descripcion,
         estado: "Abierto"
     });
-        .select()
-        .single();
-
+       
     if (error) {
         console.error(error);
 
