@@ -1253,37 +1253,185 @@ async function cargarClientes() {
                 ${cliente.email}
             </p>
 
-            ${data.map(ticket => `
-                <div class="cliente-card">
+           ${data.map(ticket => `
+    <div class="cliente-card">
 
-                    <h3>🎫 ${ticket.asunto}</h3>
+        <h3>🎫 ${ticket.asunto}</h3>
 
-                    <p>
-                        <strong>Estado:</strong>
-                        ${ticket.estado}
-                    </p>
+        <p>
+            <strong>Estado:</strong>
+            <span style="
+                color:${ticket.estado === 'Resuelto' ? '#4ade80' : '#fbbf24'};
+            ">
+                ${ticket.estado}
+            </span>
+        </p>
 
-                    <p>
-                        <strong>Descripción:</strong><br>
-                        ${ticket.descripcion}
-                    </p>
+        <p>
+            <strong>Descripción:</strong><br>
+            ${ticket.descripcion}
+        </p>
 
-                    <p>
-                        <strong>📅 Fecha:</strong>
-                        ${new Date(ticket.creado_en).toLocaleString("es-AR")}
-                    </p>
+        <p>
+            <strong>📅 Fecha:</strong>
+            ${new Date(ticket.creado_en).toLocaleString("es-AR")}
+        </p>
 
-                    ${
-                        ticket.respuesta
-                        ? `<p><strong>💬 Respuesta:</strong><br>${ticket.respuesta}</p>`
-                        : `<p style="color:#fbbf24;">⏳ Sin respuesta todavía</p>`
-                    }
-
+        ${
+            ticket.respuesta
+            ? `
+                <div style="
+                    margin-top:15px;
+                    padding:15px;
+                    background:rgba(59,130,246,0.12);
+                    border-radius:12px;
+                ">
+                    <strong>💬 Respuesta del operador:</strong>
+                    <p>${ticket.respuesta}</p>
                 </div>
-            `).join("")}
+            `
+            : `
+                <p style="color:#fbbf24;">
+                    ⏳ Sin respuesta todavía
+                </p>
+            `
+        }
+
+        ${
+            ticket.estado !== "Resuelto"
+            ? `
+                <textarea
+                    id="respuesta-${ticket.id}"
+                    placeholder="Escribí una respuesta para el cliente..."
+                    style="
+                        width:100%;
+                        min-height:100px;
+                        margin-top:15px;
+                        padding:12px;
+                        box-sizing:border-box;
+                        border-radius:12px;
+                        resize:vertical;
+                    "
+                ></textarea>
+
+                <button
+                    onclick="responderTicket(${ticket.id})"
+                    style="
+                        margin-top:10px;
+                        padding:11px 18px;
+                        border:none;
+                        border-radius:10px;
+                        background:#2563eb;
+                        color:white;
+                        cursor:pointer;
+                    "
+                >
+                    💬 Enviar respuesta
+                </button>
+
+                <button
+                    onclick="resolverTicket(${ticket.id})"
+                    style="
+                        margin-top:10px;
+                        margin-left:8px;
+                        padding:11px 18px;
+                        border:none;
+                        border-radius:10px;
+                        background:#16a34a;
+                        color:white;
+                        cursor:pointer;
+                    "
+                >
+                    ✅ Resolver
+                </button>
+            `
+            : `
+                <p style="
+                    color:#4ade80;
+                    margin-top:15px;
+                    font-weight:bold;
+                ">
+                    ✅ Este ticket está resuelto
+                </p>
+            `
+        }
+
+    </div>
+`).join("")}
 
         </div>
     `;
+}
+     async function responderTicket(id) {
+
+    const textarea = document.getElementById(`respuesta-${id}`);
+
+    const respuesta = textarea.value.trim();
+
+    if (!respuesta) {
+        alert("Escribí una respuesta primero.");
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("tickets")
+        .update({
+            respuesta: respuesta
+        })
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+        alert("❌ No se pudo guardar la respuesta.");
+        return;
+    }
+
+    alert("✅ Respuesta enviada.");
+
+    const ticket = await supabaseClient
+        .from("tickets")
+        .select("email")
+        .eq("id", id)
+        .single();
+
+    if (ticket.data) {
+        verTickets(ticket.data.email);
+    }
+}
+
+
+async function resolverTicket(id) {
+
+    const confirmar = confirm(
+        "¿Querés marcar este ticket como resuelto?"
+    );
+
+    if (!confirmar) return;
+
+    const { error } = await supabaseClient
+        .from("tickets")
+        .update({
+            estado: "Resuelto"
+        })
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+        alert("❌ No se pudo resolver el ticket.");
+        return;
+    }
+
+    alert("✅ Ticket marcado como resuelto.");
+
+    const ticket = await supabaseClient
+        .from("tickets")
+        .select("email")
+        .eq("id", id)
+        .single();
+
+    if (ticket.data) {
+        verTickets(ticket.data.email);
+    }
 }
 </script>
 
