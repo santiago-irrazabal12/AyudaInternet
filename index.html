@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -892,15 +893,91 @@ async function checkConnection(){
 
 checkConnection();
 
-document.getElementById("ticketForm").addEventListener("submit", function(e){
+const SUPABASE_URL = "https://vlugqnsfuvrjxnujirbu.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_KWvjDOqWOBGJ36KfLR6auA_lwYmLH2t";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+document.getElementById("ticketForm").addEventListener("submit", async function(e) {
+
     e.preventDefault();
 
-    document.getElementById("popup").style.display = "flex";
-    document.getElementById("popupTitle").innerHTML = "📩 Ticket enviado";
-    document.getElementById("popupText").innerHTML =
-    "Tu ticket fue registrado correctamente. En una página real, esto se enviaría al soporte técnico.";
+    const nombre = this.querySelector('input[type="text"]').value.trim();
+
+    const email = this.querySelector('input[type="email"]').value.trim();
+
+    const selects = this.querySelectorAll("select");
+
+    const categoria = selects[0].value;
+
+    const prioridad = selects[1].value;
+
+    const descripcion = this.querySelector("textarea").value.trim();
+
+
+    const boton = this.querySelector('button[type="submit"]');
+
+    boton.disabled = true;
+
+    boton.textContent = "Enviando...";
+
+
+    const { data, error } = await supabaseClient
+
+        .from("tickets")
+
+        .insert({
+
+            nombre: nombre,
+
+            email: email,
+
+            asunto: categoria + " - Prioridad " + prioridad,
+
+            descripcion: descripcion,
+
+            estado: "Abierto"
+
+        })
+
+        .select()
+
+        .single();
+
+
+    if (error) {
+
+        console.error("Error al guardar el ticket:", error);
+
+        alert("❌ No se pudo enviar el ticket.");
+
+        boton.disabled = false;
+
+        boton.textContent = "Enviar Ticket";
+
+        return;
+
+    }
+
+
+    alert(
+        "✅ Ticket enviado correctamente.\n\n" +
+        "Número de ticket: #" + data.id
+    );
+
 
     this.reset();
+
+
+    boton.disabled = false;
+
+    boton.textContent = "Enviar Ticket";
+
 });
 </script>
 
