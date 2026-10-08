@@ -1592,18 +1592,22 @@ async function resolverTicket(id) {
         verTickets(ticket.data.email);
     }
 }
-     document.getElementById("btnConsultar").addEventListener("click", async function(){
+    <script>
+
+document.getElementById("btnConsultar").addEventListener("click", async function(){
 
     const numero = document.getElementById("consultaNumero").value.trim();
     const email = document.getElementById("consultaEmail").value.trim();
     const resultado = document.getElementById("resultadoTickets");
 
     if (!numero || !email) {
+
         resultado.innerHTML = `
             <p style="color:#f87171; margin-top:20px;">
                 ⚠️ Completá el número de cliente y el email.
             </p>
         `;
+
         return;
     }
 
@@ -1620,6 +1624,7 @@ async function resolverTicket(id) {
         });
 
     if (error) {
+
         console.error(error);
 
         resultado.innerHTML = `
@@ -1632,75 +1637,7 @@ async function resolverTicket(id) {
     }
 
     if (!data || data.length === 0) {
-        resultado.innerHTML = `
-            <p style="color:#fbbf24; margin-top:20px;">
-                ⚠️ No encontramos tickets con esos datos.
-            </p>
-        `;
-        return;
-    }
 
-    resultado.innerHTML = data.map(ticket => {
-
-        const resuelto = ticket.estado === "Resuelto";
-
-        return `
-            <div class="ticket-cliente">
-
-                <h3>🎫 ${ticket.asunto}</h3>
-
-                <p>
-                    <strong>Estado:</strong>
-                    <span class="${resuelto ? "estado-resuelto" : "estado-abierto"}">
-                        ${resuelto ? "🟢 Resuelto" : "🟡 Abierto"}
-                    </span>
-                </p>
-
-                <p>
-                    <strong>Descripción:</strong><br>
-                    ${ticket.descripcion}
-                </p>
-
-                <p>
-                    <strong>📅 Fecha:</strong>
-                    ${new Date(ticket.creado_en).toLocaleString("es-AR")}
-                </p>
-
-                ${
-                    ticket.respuesta
-                    ? `
-                        <div class="respuesta-cliente">
-                            <strong>💬 Respuesta de NetHelp:</strong>
-                            <p>${ticket.respuesta}</p>
-                        </div>
-                    `
-                    : `
-                        <p style="color:#94a3b8;">
-                            ⏳ El operador todavía no respondió este ticket.
-                        </p>
-                    `
-                }
-
-            </div>
-        `;
-
-    }).join("");
-
-});
-
-if (error) {
-    console.error(error);
-
-    resultado.innerHTML = `
-        <p style="color:#f87171; margin-top:20px;">
-            ❌ No se pudieron consultar los tickets.
-        </p>
-    `;
-
-    return;
-}
-
-    if (!data || data.length === 0) {
         resultado.innerHTML = `
             <p style="color:#fbbf24; margin-top:20px;">
                 ⚠️ No encontramos tickets con esos datos.
@@ -1721,8 +1658,19 @@ if (error) {
 
                 <p>
                     <strong>Estado:</strong>
-                    <span class="${resuelto ? "estado-resuelto" : "estado-abierto"}">
-                        ${resuelto ? "🟢 Resuelto" : "🟡 Abierto"}
+
+                    <span class="${
+                        resuelto
+                        ? "estado-resuelto"
+                        : "estado-abierto"
+                    }">
+
+                        ${
+                            resuelto
+                            ? "🟢 Resuelto"
+                            : "🟡 Abierto"
+                        }
+
                     </span>
                 </p>
 
@@ -1732,22 +1680,35 @@ if (error) {
                 </p>
 
                 <p>
-                    <strong>📅 Fecha:</strong>
+                    <strong>📅 Fecha:</strong><br>
                     ${new Date(ticket.creado_en).toLocaleString("es-AR")}
                 </p>
 
                 ${
                     ticket.respuesta
+
                     ? `
+
                         <div class="respuesta-cliente">
-                            <strong>💬 Respuesta de NetHelp:</strong>
-                            <p>${ticket.respuesta}</p>
+
+                            <strong>
+                                💬 Respuesta de NetHelp:
+                            </strong>
+
+                            <p>
+                                ${ticket.respuesta}
+                            </p>
+
                         </div>
+
                     `
+
                     : `
+
                         <p style="color:#94a3b8;">
                             ⏳ El operador todavía no respondió este ticket.
                         </p>
+
                     `
                 }
 
@@ -1757,7 +1718,8 @@ if (error) {
     }).join("");
 
 });
-});
+
+</script>
 </script>
 
 </body>
