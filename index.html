@@ -634,6 +634,85 @@ footer{
 .operador-box button:hover{
     background:#2563eb;
 }
+     #consultar-ticket{
+    padding:60px 20px;
+    display:flex;
+    justify-content:center;
+}
+
+.consultar-box{
+    width:90%;
+    max-width:700px;
+    background:linear-gradient(145deg,#172554,#1e3a8a);
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+.consultar-box h2{
+    color:#93c5fd;
+    margin-bottom:10px;
+}
+
+.consultar-box > p{
+    color:#cbd5e1;
+    margin-bottom:25px;
+}
+
+.consultar-box input{
+    width:100%;
+    box-sizing:border-box;
+    padding:14px;
+    margin-bottom:12px;
+    border:none;
+    border-radius:12px;
+}
+
+.consultar-box button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.consultar-box button:hover{
+    background:#3b82f6;
+    transform:translateY(-2px);
+}
+
+.ticket-cliente{
+    margin-top:20px;
+    padding:22px;
+    background:rgba(15,23,42,0.6);
+    border:1px solid rgba(59,130,246,0.4);
+    border-radius:18px;
+    animation:aparecerCliente 0.4s ease;
+}
+
+.ticket-cliente h3{
+    color:#93c5fd;
+}
+
+.estado-abierto{
+    color:#fbbf24;
+}
+
+.estado-resuelto{
+    color:#4ade80;
+}
+
+.respuesta-cliente{
+    margin-top:15px;
+    padding:15px;
+    background:rgba(59,130,246,0.12);
+    border-radius:12px;
+    color:#e2e8f0;
+}
 </style>
 </head>
 
@@ -653,6 +732,38 @@ footer{
 <a href="#operador">🔐 Operador</a>
 </nav>
 </header>
+     <section id="consultar-ticket">
+
+    <div class="consultar-box">
+
+        <h2>🔎 Consultar mis tickets</h2>
+
+        <p>
+            Ingresá tu número de cliente y correo electrónico
+            para consultar tus tickets.
+        </p>
+
+        <input
+            type="text"
+            id="consultaNumero"
+            placeholder="Número de cliente (ej: CL-0001)"
+        >
+
+        <input
+            type="email"
+            id="consultaEmail"
+            placeholder="Correo electrónico"
+        >
+
+        <button id="btnConsultar">
+            🔎 Consultar tickets
+        </button>
+
+        <div id="resultadoTickets"></div>
+
+    </div>
+
+</section>
 <section id="operador" class="operador-login">
 
     <div class="operador-box" id="loginOperador">
