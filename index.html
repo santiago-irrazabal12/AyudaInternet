@@ -570,6 +570,69 @@ footer{
         width:100%;
     }
 }
+     #listaClientes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+.cliente-card{
+    background:linear-gradient(145deg,#172554,#1e3a8a);
+    padding:25px;
+    border-radius:22px;
+    border:1px solid rgba(59,130,246,0.35);
+    text-align:left;
+    transition:all 0.3s ease;
+    position:relative;
+    overflow:hidden;
+    animation:aparecerCliente 0.5s ease;
+}
+
+.cliente-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:3px;
+    background:#3b82f6;
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.3s ease;
+}
+
+.cliente-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.35);
+    border-color:#3b82f6;
+}
+
+.cliente-card:hover::before{
+    transform:scaleX(1);
+}
+
+.cliente-card h3{
+    color:#93c5fd;
+    margin-bottom:18px;
+    font-size:21px;
+}
+
+.cliente-card p{
+    margin:10px 0;
+    color:#e2e8f0;
+}
+
+@keyframes aparecerCliente{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 </style>
 </head>
 
