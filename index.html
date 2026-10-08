@@ -1168,20 +1168,24 @@ async function cargarClientes() {
         const fecha = new Date(cliente.ultimo).toLocaleString("es-AR");
 
         lista.innerHTML += `
-            <div class="cliente-card">
+    <div class="cliente-card">
 
-                <h3>👤 ${cliente.nombre}</h3>
+        <h3>👤 ${cliente.nombre}</h3>
 
-                <p><strong>Cliente:</strong> ${cliente.numero}</p>
+        <p><strong>Cliente:</strong> ${cliente.numero}</p>
 
-                <p><strong>Email:</strong> ${cliente.email || "Sin email"}</p>
+        <p><strong>📧 Email:</strong> ${cliente.email || "Sin email"}</p>
 
-                <p><strong>🎫 Tickets realizados:</strong> ${cliente.tickets}</p>
+        <p><strong>🎫 Tickets:</strong> ${cliente.tickets}</p>
 
-                <p><strong>📅 Último ticket:</strong> ${fecha}</p>
+        <p><strong>📅 Último ticket:</strong> ${fecha}</p>
 
-            </div>
-        `;
+        <button class="ver-tickets" onclick="verTickets('${cliente.email}')">
+            Ver tickets →
+        </button>
+
+    </div>
+`;
     });
 }
 </script>
