@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Problemas con el Router - NetHelp</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* BODY */
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* HEADER */
+
+header{
+    background:rgba(15,23,42,0.95);
+    backdrop-filter:blur(10px);
+    padding:22px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    animation:fadeDown 1s ease;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#60a5fa;
+}
+
+header a{
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+header a:hover{
+    color:#60a5fa;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:90px 20px;
+    animation:fadeUp 1s ease;
+}
+
+.hero i{
+    font-size:75px;
+    color:#60a5fa;
+    margin-bottom:20px;
+    animation:floating 4s ease-in-out infinite;
+}
+
+.hero h1{
+    font-size:58px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    color:#cbd5e1;
+    max-width:850px;
+    margin:auto;
+    line-height:1.9;
+    font-size:20px;
+}
+
+/* CONTAINER */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    margin-bottom:50px;
+}
+
+/* CARDS */
+
+.card{
+    background:linear-gradient(145deg,#1e3a8a,#172554);
+    padding:32px;
+    border-radius:28px;
+    position:relative;
+    overflow:hidden;
+    transition:0.4s;
+    box-shadow:0 5px 25px rgba(0,0,0,0.3);
+
+    animation:
+    fadeUp 1s ease,
+    floating 5s ease-in-out infinite;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.05);
+    transform:translateX(-100%);
+    transition:0.6s;
+}
+
+.card:hover::before{
+    transform:translateX(100%);
+}
+
+.card h2{
+    color:#93c5fd;
+    margin-bottom:22px;
+    font-size:28px;
+}
+
+.card p,
+.card li{
+    color:#dbeafe;
+    line-height:1.9;
+    font-size:17px;
+}
+
+.card ul{
+    padding-left:20px;
+}
+
+/* INFO BOX */
+
+.info-box{
+    background:linear-gradient(145deg,#2563eb,#1d4ed8);
+    padding:40px;
+    border-radius:28px;
+    text-align:center;
+    margin-bottom:60px;
+    animation:fadeUp 1s ease;
+}
+
+.info-box h2{
+    margin-bottom:15px;
+    font-size:35px;
+}
+
+.info-box p{
+    color:#dbeafe;
+    margin-bottom:25px;
+    line-height:1.8;
+    font-size:18px;
+}
+
+.info-box a{
+    display:inline-block;
+    padding:16px 26px;
+    border-radius:16px;
+    background:white;
+    color:#0f172a;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.info-box a:hover{
+    transform:scale(1.05);
+}
+
+/* BUTTON */
+
+.back{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.back a{
+    text-decoration:none;
+}
+
+.back button{
+    padding:17px 28px;
+    border:none;
+    border-radius:16px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+}
+
+.back button:hover{
+    transform:scale(1.05);
+    background:#2563eb;
+    box-shadow:0 0 20px rgba(59,130,246,0.5);
+}
+
+/* FOOTER */
+
+footer{
+    background:#172554;
+    padding:30px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes floating{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<i class="fa-solid fa-router"></i> NetHelp
+</div>
+
+<a href="index.html">
+⬅ Volver al inicio
+</a>
+
+</header>
+
+<section class="hero">
+
+<i class="fa-solid fa-router"></i>
+
+<h1>Problemas con el Router</h1>
+
+<p>
+El router es el dispositivo que reparte internet
+a celulares, computadoras y TVs.
+Si tiene fallas, el WiFi puede ponerse lento
+o directamente dejar de funcionar.
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="grid">
+
+<!-- CAUSAS -->
+
+<div class="card">
+
+<h2>📌 Posibles causas</h2>
+
+<ul>
+
+<li>
+
+El router estuvo encendido demasiado tiempo.
+
+</li>
+
+<br>
+
+<li>
+
+Hay cables flojos o mal conectados.
+
+</li>
+
+<br>
+
+<li>
+
+El router se sobrecalentó.
+
+</li>
+
+<br>
+
+<li>
+
+Muchas personas usan internet al mismo tiempo.
+
+</li>
+
+<br>
+
+<li>
+
+El proveedor de internet tiene problemas.
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- SOLUCIONES -->
+
+<div class="card">
+
+<h2>🛠 Soluciones explicadas</h2>
+
+<ul>
+
+<li>
+
+<b>Reiniciá el router:</b>
+
+<br><br>
+
+Desenchufá el router durante
+30 segundos y volvé a conectarlo.
+Esperá unos minutos hasta que las luces
+vuelvan a encenderse normalmente.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Revisá los cables:</b>
+
+<br><br>
+
+Asegurate de que todos los cables
+estén correctamente conectados.
+Si alguno está flojo,
+internet puede fallar.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Dejá enfriar el router:</b>
+
+<br><br>
+
+Si el router está muy caliente,
+apagalo unos minutos.
+El exceso de temperatura
+puede causar fallas.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Mové el router de lugar:</b>
+
+<br><br>
+
+Intentá colocarlo en una zona abierta
+y elevada.
+Evitar muebles cerrados
+mejora la señal.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Probá internet en otro dispositivo:</b>
+
+<br><br>
+
+Esto ayuda a saber si el problema
+es del router o solamente
+de una computadora o celular.
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- CONSEJOS -->
+
+<div class="card">
+
+<h2>💡 Recomendaciones</h2>
+
+<p>
+
+• No tapes el router con objetos.
+<br><br>
+
+• Reiniciarlo cada ciertos días
+puede mejorar el funcionamiento.
+<br><br>
+
+• Evitá golpear o mover mucho los cables.
+<br><br>
+
+• Si las luces parpadean raro,
+puede haber una falla.
+<br><br>
+
+• Si el problema sigue,
+contactá al proveedor de internet.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- INFO BOX -->
+
+<div class="info-box">
+
+<h2>📡 Verificar conexión</h2>
+
+<p>
+Podés comprobar si el router está entregando
+internet correctamente realizando una prueba.
+</p>
+
+<a href="https://www.speedtest.net/"
+target="_blank">
+
+Abrir SpeedTest
+
+</a>
+
+</div>
+
+<!-- BACK -->
+
+<div class="back">
+
+<a href="index.html">
+
+<button>
+⬅ Volver al inicio
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 NetHelp - Soporte Router
+
+</footer>
+
+</body>
+</html>

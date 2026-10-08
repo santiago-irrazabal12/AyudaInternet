@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NetHelp - Soporte Técnico</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:20px;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(15,23,42,0.95);
+    backdrop-filter:blur(10px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 45px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    animation:fadeDown 1s ease;
+}
+
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#60a5fa;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    position:relative;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#60a5fa;
+}
+
+nav a::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:-5px;
+    width:0%;
+    height:2px;
+    background:#60a5fa;
+    transition:0.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+.hero{
+    text-align:center;
+    padding:110px 20px;
+    animation:fadeUp 1s ease;
+}
+
+.hero h1{
+    font-size:65px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    font-size:20px;
+    color:#cbd5e1;
+    margin-bottom:35px;
+}
+
+.search-box{
+    max-width:700px;
+    margin:auto;
+    display:flex;
+    background:#1e3a8a;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 5px 25px rgba(0,0,0,0.3);
+}
+
+.search-box input{
+    flex:1;
+    padding:20px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:white;
+    font-size:17px;
+}
+
+.search-box input::placeholder{
+    color:#bfdbfe;
+}
+
+.search-box button{
+    padding:20px 25px;
+    border:none;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.search-box button:hover{
+    background:#2563eb;
+}
+
+.search-help{
+    color:#93c5fd;
+    margin-top:15px;
+    font-size:15px;
+}
+
+.container{
+    width:90%;
+    max-width:1250px;
+    margin:auto;
+}
+
+.section-title{
+    font-size:38px;
+    color:#60a5fa;
+    margin:70px 0 30px;
+    animation:fadeUp 1s ease;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:22px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,#1e3a8a,#172554);
+    padding:30px;
+    border-radius:25px;
+    transition:0.4s;
+    box-shadow:0 5px 25px rgba(0,0,0,0.3);
+    animation:fadeUp 1s ease, floating 5s ease-in-out infinite;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.05);
+    transform:translateX(-100%);
+    transition:0.5s;
+}
+
+.card:hover::before{
+    transform:translateX(100%);
+}
+
+.card i{
+    font-size:42px;
+    color:#93c5fd;
+    margin-bottom:18px;
+}
+
+.card h3{
+    margin-bottom:12px;
+    font-size:25px;
+}
+
+.card p{
+    color:#dbeafe;
+    line-height:1.7;
+}
+
+.card button{
+    margin-top:20px;
+    padding:13px 18px;
+    border:none;
+    border-radius:14px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card button:hover{
+    background:#2563eb;
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(59,130,246,0.5);
+}
+
+.card a{
+    text-decoration:none;
+}
+
+.quick{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.quick a{
+    text-decoration:none;
+}
+
+.quick button{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    background:linear-gradient(145deg,#2563eb,#1d4ed8);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+    animation:fadeUp 1s ease;
+}
+
+.quick button:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(59,130,246,0.5);
+}
+
+.status-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:22px;
+}
+
+.status-card{
+    position:relative;
+    overflow:hidden;
+    padding:30px;
+    border-radius:25px;
+    transition:0.4s;
+    animation:fadeUp 1s ease, floating 4s ease-in-out infinite;
+}
+
+.status-card:hover{
+    transform:translateY(-8px) scale(1.03);
+}
+
+.status-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.05);
+    transform:translateX(-100%);
+    transition:0.6s;
+}
+
+.status-card:hover::before{
+    transform:translateX(100%);
+}
+
+.online{
+    background:linear-gradient(145deg,#1e3a8a,#2563eb);
+}
+
+.warning{
+    background:linear-gradient(145deg,#92400e,#f59e0b);
+}
+
+.offline{
+    background:linear-gradient(145deg,#7f1d1d,#dc2626);
+}
+
+.status-card h3{
+    font-size:26px;
+    margin-bottom:15px;
+}
+
+.status-text{
+    font-size:18px;
+    margin-bottom:18px;
+}
+
+.solution-box p{
+    line-height:1.8;
+    color:#e2e8f0;
+}
+
+.solution-box button,
+.popup button{
+    margin-top:20px;
+    padding:14px 18px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#0f172a;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.solution-box button:hover,
+.popup button:hover{
+    transform:scale(1.05);
+}
+
+details{
+    background:#1e3a8a;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:15px;
+    animation:fadeUp 1s ease;
+}
+
+summary{
+    cursor:pointer;
+    font-weight:bold;
+}
+
+details p{
+    margin-top:12px;
+    color:#dbeafe;
+    line-height:1.7;
+}
+
+.ticket-form{
+    background:#1e3a8a;
+    padding:35px;
+    border-radius:25px;
+    animation:fadeUp 1s ease;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input,
+textarea,
+select{
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#0f172a;
+    color:white;
+    font-size:15px;
+}
+
+textarea{
+    resize:none;
+    height:150px;
+}
+
+form button{
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+form button:hover{
+    background:#2563eb;
+    transform:scale(1.02);
+}
+
+.speedtest{
+    text-align:center;
+    margin-top:50px;
+}
+
+.speedtest a{
+    display:inline-block;
+    padding:17px 30px;
+    border-radius:18px;
+    background:#3b82f6;
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.speedtest a:hover{
+    background:#2563eb;
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(59,130,246,0.5);
+}
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.popup-content{
+    width:90%;
+    max-width:500px;
+    background:#172554;
+    padding:35px;
+    border-radius:25px;
+    animation:popupAnim 0.4s ease;
+}
+
+.popup-content h2{
+    margin-bottom:20px;
+    color:#93c5fd;
+}
+
+.popup-content p{
+    line-height:1.9;
+    color:#dbeafe;
+}
+
+footer{
+    margin-top:90px;
+    background:#172554;
+    padding:30px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fadeDown{
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes popupAnim{
+    from{
+        opacity:0;
+        transform:scale(0.8);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes floating{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-6px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+@media(max-width:700px){
+    header{
+        flex-direction:column;
+        gap:15px;
+        padding:20px;
+    }
+
+    nav a{
+        margin:0 8px;
+        font-size:14px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+    .search-box{
+        flex-direction:column;
+    }
+
+    .search-box button{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<i class="fa-solid fa-wifi"></i> NetHelp
+</div>
+
+<nav>
+<a href="#">Inicio</a>
+<a href="#problemas">Problemas</a>
+<a href="#estado">Estado</a>
+<a href="#faq">FAQ</a>
+<a href="#ticket">Ticket</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Soluciones rápidas para tu Internet</h1>
+
+<p>
+Encontrá ayuda para WiFi, lag, routers, streaming, Ethernet y más.
+</p>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Ej: WiFi lento, lag, Netflix, router...">
+
+<button onclick="buscarProblema()">
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+</div>
+
+<p class="search-help">
+Probá buscar: wifi lento, lag, no tengo internet, router, netflix, cable
+</p>
+</section>
+
+<div class="container">
+
+<h2 class="section-title" id="problemas">
+Problemas Frecuentes
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<i class="fa-solid fa-wifi"></i>
+<h3>WiFi lento</h3>
+<p>Internet lento, señal débil o páginas que tardan en cargar.</p>
+<a href="wifi-lento.html">
+<button>Ver solución</button>
+</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-gamepad"></i>
+<h3>Problema Gamer</h3>
+<p>Lag, ping alto, packet loss o juegos online inestables.</p>
+<a href="ping-alto.html">
+<button>Ver solución</button>
+</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-plug"></i>
+<h3>Sin Internet</h3>
+<p>No cargan páginas, apps o aparece “sin conexión”.</p>
+<a href="sin-internet.html">
+<button>Ver solución</button>
+</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-router"></i>
+<h3>Router</h3>
+<p>Router sin señal, luces raras, cortes o fallas de conexión.</p>
+<a href="router.html">
+<button>Ver solución</button>
+</a>
+</div>
+
+</div>
+
+<h2 class="section-title">
+Diagnóstico Rápido
+</h2>
+
+<div class="quick">
+<a href="wifi-lento.html"><button>📶 Problema WiFi</button></a>
+<a href="ping-alto.html"><button>🎮 Problema Gamer</button></a>
+<a href="sin-internet.html"><button>🌐 Sin Internet</button></a>
+<a href="router.html"><button>🛠 Router</button></a>
+<a href="streaming.html"><button>📡 Streaming</button></a>
+<a href="ethernet.html"><button>🔌 Ethernet</button></a>
+</div>
+
+<h2 class="section-title" id="estado">
+Estado del Servicio
+</h2>
+
+<div class="status-container">
+
+<div class="status-card online">
+<h3>📶 WiFi</h3>
+<p class="status-text">🟢 Operativo</p>
+<div class="solution-box">
+<p>La red funciona correctamente.</p>
+</div>
+</div>
+
+<div class="status-card warning">
+<h3>📡 Streaming</h3>
+<p class="status-text">🟡 Lentitud detectada</p>
+<div class="solution-box">
+<p>Puede haber buffering o baja calidad.</p>
+<button onclick="streamFix()">Ver solución</button>
+</div>
+</div>
+
+<div class="status-card" id="dnsStatus">
+<h3>🌐 DNS</h3>
+<p class="status-text">⏳ Verificando...</p>
+<div class="solution-box">
+<p>Comprobando conexión.</p>
+</div>
+</div>
+
+</div>
+
+<h2 class="section-title" id="faq">
+Preguntas Frecuentes
+</h2>
+
+<details>
+<summary>¿Cómo reinicio el router?</summary>
+<p>Desenchufalo durante 30 segundos y volvé a conectarlo. Después esperá unos minutos hasta que las luces vuelvan a la normalidad.</p>
+</details>
+
+<details>
+<summary>¿Cómo mejorar el ping?</summary>
+<p>Usá cable Ethernet, cerrá descargas, evitá videos en segundo plano y elegí servidores cercanos dentro del juego.</p>
+</details>
+
+<details>
+<summary>¿Qué hago si no sé cuál es mi problema?</summary>
+<p>Usá la barra de búsqueda con palabras simples como “wifi”, “lag”, “Netflix”, “router” o enviá un ticket contando qué te pasa.</p>
+</details>
+
+<details>
+<summary>¿Qué es Ethernet?</summary>
+<p>Es un cable que conecta directamente tu computadora o consola al router. Suele ser más estable que el WiFi.</p>
+</details>
+
+<h2 class="section-title" id="ticket">
+Enviar Ticket
+</h2>
+
+<div class="ticket-form">
+<form id="ticketForm">
+
+<input type="text" placeholder="Nombre" required>
+
+<input type="email" placeholder="Correo" required>
+
+<select required>
+<option value="">Categoría del problema</option>
+<option>WiFi</option>
+<option>Ping / Gamer</option>
+<option>Router</option>
+<option>Streaming</option>
+<option>Ethernet</option>
+<option>Sin Internet</option>
+<option>Otro</option>
+</select>
+
+<select required>
+<option value="">Prioridad</option>
+<option>Baja</option>
+<option>Media</option>
+<option>Alta</option>
+</select>
+
+<textarea placeholder="Describe tu problema..." required></textarea>
+
+<button type="submit">
+Enviar Ticket
+</button>
+
+</form>
+</div>
+
+<div class="speedtest">
+<a href="https://www.speedtest.net/" target="_blank">
+🚀 Verificar velocidad de Internet
+</a>
+</div>
+
+</div>
+
+<div class="popup" id="popup">
+<div class="popup-content">
+<h2 id="popupTitle"></h2>
+<p id="popupText"></p>
+<button onclick="closePopup()">Cerrar</button>
+</div>
+</div>
+
+<footer>
+© 2026 NetHelp - Soporte Técnico
+</footer>
+
+<script>
+function buscarProblema(){
+    let busqueda = document.getElementById("searchInput").value.toLowerCase().trim();
+
+    if(busqueda === ""){
+        alert("Escribí un problema para buscar.");
+        return;
+    }
+
+    if(
+        busqueda.includes("wifi") ||
+        busqueda.includes("internet lento") ||
+        busqueda.includes("lento") ||
+        busqueda.includes("señal") ||
+        busqueda.includes("se corta") ||
+        busqueda.includes("corta")
+    ){
+        window.location.href = "wifi-lento.html";
+    }
+    else if(
+        busqueda.includes("ping") ||
+        busqueda.includes("lag") ||
+        busqueda.includes("gamer") ||
+        busqueda.includes("juego") ||
+        busqueda.includes("valorant") ||
+        busqueda.includes("cs") ||
+        busqueda.includes("counter") ||
+        busqueda.includes("fortnite") ||
+        busqueda.includes("free fire") ||
+        busqueda.includes("roblox") ||
+        busqueda.includes("packet")
+    ){
+        window.location.href = "ping-alto.html";
+    }
+    else if(
+        busqueda.includes("sin internet") ||
+        busqueda.includes("no tengo internet") ||
+        busqueda.includes("no hay internet") ||
+        busqueda.includes("conexion") ||
+        busqueda.includes("conexión") ||
+        busqueda.includes("no carga") ||
+        busqueda.includes("no funciona")
+    ){
+        window.location.href = "sin-internet.html";
+    }
+    else if(
+        busqueda.includes("router") ||
+        busqueda.includes("modem") ||
+        busqueda.includes("módem") ||
+        busqueda.includes("luces") ||
+        busqueda.includes("moden")
+    ){
+        window.location.href = "router.html";
+    }
+    else if(
+        busqueda.includes("streaming") ||
+        busqueda.includes("netflix") ||
+        busqueda.includes("youtube") ||
+        busqueda.includes("twitch") ||
+        busqueda.includes("disney") ||
+        busqueda.includes("video") ||
+        busqueda.includes("pelicula") ||
+        busqueda.includes("película") ||
+        busqueda.includes("serie")
+    ){
+        window.location.href = "streaming.html";
+    }
+    else if(
+        busqueda.includes("ethernet") ||
+        busqueda.includes("etherneth") ||
+        busqueda.includes("cable") ||
+        busqueda.includes("cable internet") ||
+        busqueda.includes("lan")
+    ){
+        window.location.href = "ethernet.html";
+    }
+    else{
+        alert("No encontramos ese problema 😕\n\nPodés enviar un ticket abajo contando qué te pasa.");
+        window.location.href = "#ticket";
+    }
+}
+
+document.getElementById("searchInput").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        buscarProblema();
+    }
+});
+
+function streamFix(){
+    document.getElementById("popup").style.display = "flex";
+
+    document.getElementById("popupTitle").innerHTML =
+    "📡 Solución Streaming";
+
+    document.getElementById("popupText").innerHTML =
+    `
+    • Reiniciá el router.<br><br>
+    • Cerrá descargas pesadas.<br><br>
+    • Usá Ethernet si podés.<br><br>
+    • Bajá la calidad del video temporalmente.<br><br>
+    • Acercate al router si estás usando WiFi.
+    `;
+}
+
+function dnsFix(){
+    document.getElementById("popup").style.display = "flex";
+
+    document.getElementById("popupTitle").innerHTML =
+    "🌐 Solución DNS";
+
+    document.getElementById("popupText").innerHTML =
+    `
+    • Reiniciá el modem/router.<br><br>
+    • Probá abrir otra página.<br><br>
+    • Si sabés cambiar DNS, podés usar:<br><br>
+    8.8.8.8<br>
+    8.8.4.4<br><br>
+    • Si sigue igual, puede ser problema del proveedor.
+    `;
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+async function checkConnection(){
+    const dnsCard = document.getElementById("dnsStatus");
+
+    try{
+        await fetch("https://www.google.com", { mode:"no-cors" });
+
+        dnsCard.className = "status-card online";
+
+        dnsCard.innerHTML = `
+        <h3>🌐 DNS</h3>
+        <p class="status-text">🟢 Operativo</p>
+        <div class="solution-box">
+        <p>La conexión responde correctamente.</p>
+        </div>
+        `;
+    }
+    catch{
+        dnsCard.className = "status-card offline";
+
+        dnsCard.innerHTML = `
+        <h3>🌐 DNS</h3>
+        <p class="status-text">🔴 Sin conexión</p>
+        <div class="solution-box">
+        <p>No se pudo comprobar la conexión.</p>
+        <button onclick="dnsFix()">Ver solución</button>
+        </div>
+        `;
+    }
+}
+
+checkConnection();
+
+document.getElementById("ticketForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popupTitle").innerHTML = "📩 Ticket enviado";
+    document.getElementById("popupText").innerHTML =
+    "Tu ticket fue registrado correctamente. En una página real, esto se enviaría al soporte técnico.";
+
+    this.reset();
+});
+</script>
+
+</body>
+</html>

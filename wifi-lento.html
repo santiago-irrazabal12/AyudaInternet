@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WiFi Lento - NetHelp</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* BODY */
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* HEADER */
+
+header{
+    background:rgba(15,23,42,0.95);
+    backdrop-filter:blur(10px);
+    padding:22px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    animation:fadeDown 1s ease;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#60a5fa;
+}
+
+header a{
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+header a:hover{
+    color:#60a5fa;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:90px 20px;
+    animation:fadeUp 1s ease;
+}
+
+.hero i{
+    font-size:75px;
+    color:#60a5fa;
+    margin-bottom:20px;
+    animation:floating 4s ease-in-out infinite;
+}
+
+.hero h1{
+    font-size:58px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    color:#cbd5e1;
+    max-width:850px;
+    margin:auto;
+    line-height:1.9;
+    font-size:20px;
+}
+
+/* CONTAINER */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:25px;
+    margin-bottom:50px;
+}
+
+/* CARDS */
+
+.card{
+    background:linear-gradient(145deg,#1e3a8a,#172554);
+    padding:32px;
+    border-radius:28px;
+    position:relative;
+    overflow:hidden;
+    transition:0.4s;
+    box-shadow:0 5px 25px rgba(0,0,0,0.3);
+
+    animation:
+    fadeUp 1s ease,
+    floating 5s ease-in-out infinite;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.05);
+    transform:translateX(-100%);
+    transition:0.6s;
+}
+
+.card:hover::before{
+    transform:translateX(100%);
+}
+
+.card h2{
+    color:#93c5fd;
+    margin-bottom:22px;
+    font-size:28px;
+}
+
+.card p,
+.card li{
+    color:#dbeafe;
+    line-height:1.9;
+    font-size:17px;
+}
+
+.card ul{
+    padding-left:20px;
+}
+
+/* SPEED BOX */
+
+.speed-box{
+    background:linear-gradient(145deg,#2563eb,#1d4ed8);
+    padding:40px;
+    border-radius:28px;
+    text-align:center;
+    margin-bottom:60px;
+    animation:fadeUp 1s ease;
+}
+
+.speed-box h2{
+    margin-bottom:15px;
+    font-size:35px;
+}
+
+.speed-box p{
+    color:#dbeafe;
+    margin-bottom:25px;
+    line-height:1.8;
+    font-size:18px;
+}
+
+.speed-box a{
+    display:inline-block;
+    padding:16px 26px;
+    border-radius:16px;
+    background:white;
+    color:#0f172a;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.speed-box a:hover{
+    transform:scale(1.05);
+}
+
+/* BUTTON */
+
+.back{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.back a{
+    text-decoration:none;
+}
+
+.back button{
+    padding:17px 28px;
+    border:none;
+    border-radius:16px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+}
+
+.back button:hover{
+    transform:scale(1.05);
+    background:#2563eb;
+    box-shadow:0 0 20px rgba(59,130,246,0.5);
+}
+
+/* FOOTER */
+
+footer{
+    background:#172554;
+    padding:30px;
+    text-align:center;
+    color:#cbd5e1;
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes fadeDown{
+
+    from{
+        opacity:0;
+        transform:translateY(-40px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes floating{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero p{
+        font-size:17px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<i class="fa-solid fa-wifi"></i> NetHelp
+</div>
+
+<a href="index.html">
+⬅ Volver al inicio
+</a>
+
+</header>
+
+<section class="hero">
+
+<i class="fa-solid fa-wifi"></i>
+
+<h1>WiFi Lento</h1>
+
+<p>
+El internet puede funcionar lento por señal débil,
+muchos dispositivos conectados o problemas del router.
+Esto puede causar videos trabados, descargas lentas
+o páginas que tardan en cargar.
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="grid">
+
+<!-- CAUSAS -->
+
+<div class="card">
+
+<h2>📌 Posibles causas</h2>
+
+<ul>
+
+<li>
+Estás lejos del router.
+</li>
+
+<br>
+
+<li>
+Hay paredes u objetos bloqueando la señal.
+</li>
+
+<br>
+
+<li>
+Muchas personas usan internet al mismo tiempo.
+</li>
+
+<br>
+
+<li>
+El router es antiguo o tiene fallas.
+</li>
+
+<br>
+
+<li>
+Tu proveedor tiene problemas de conexión.
+</li>
+
+</ul>
+
+</div>
+
+<!-- SOLUCIONES -->
+
+<div class="card">
+
+<h2>🛠 Soluciones explicadas</h2>
+
+<ul>
+
+<li>
+
+<b>Acercate al router:</b>
+
+<br><br>
+
+Si estás lejos del modem,
+la señal pierde fuerza.
+Intentá usar internet más cerca del router.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Probá la red 5GHz:</b>
+
+<br><br>
+
+Muchos routers tienen dos redes WiFi.
+Una normal y otra llamada “5G” o “5GHz”.
+La red 5GHz suele ser más rápida
+si estás cerca del modem.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Reiniciá el router:</b>
+
+<br><br>
+
+Desenchufá el modem/router durante
+30 segundos y volvé a conectarlo.
+Esto puede solucionar errores temporales.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Desconectá dispositivos:</b>
+
+<br><br>
+
+Si muchas personas usan internet al mismo tiempo,
+la velocidad puede bajar.
+Intentá desconectar TVs, celulares
+o descargas que no estés usando.
+
+</li>
+
+<br>
+
+<li>
+
+<b>Usá cable Ethernet:</b>
+
+<br><br>
+
+Podés conectar un cable desde el router
+hasta la computadora.
+Esto da una conexión más estable
+y rápida que el WiFi.
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- CONSEJOS -->
+
+<div class="card">
+
+<h2>💡 Recomendaciones</h2>
+
+<p>
+
+• Colocá el router en una zona alta y abierta.
+<br><br>
+
+• Evitá ponerlo dentro de muebles.
+<br><br>
+
+• Reiniciá el router cada ciertos días.
+<br><br>
+
+• Actualizá dispositivos antiguos.
+<br><br>
+
+• Usá Ethernet para gaming o streaming.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- SPEED TEST -->
+
+<div class="speed-box">
+
+<h2>🚀 Verificar velocidad</h2>
+
+<p>
+Podés comprobar tu velocidad de internet,
+ping y estabilidad de conexión.
+</p>
+
+<a href="https://www.speedtest.net/"
+target="_blank">
+
+Abrir SpeedTest
+
+</a>
+
+</div>
+
+<!-- BACK -->
+
+<div class="back">
+
+<a href="index.html">
+
+<button>
+⬅ Volver al inicio
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+© 2026 NetHelp - Soporte WiFi
+
+</footer>
+
+</body>
+</html>
