@@ -590,7 +590,9 @@ footer{
 </nav>
 </header>
 <section id="operador" class="operador-login">
-    <div class="operador-box">
+
+    <div class="operador-box" id="loginOperador">
+
         <h2>🔐 Panel de Operador</h2>
         <p>Ingresá con tu cuenta de operador</p>
 
@@ -601,7 +603,25 @@ footer{
         <button id="btnOperador">Ingresar</button>
 
         <p id="loginError" style="display:none;"></p>
+
     </div>
+
+    <div class="panel-operador" id="panelOperador" style="display:none;">
+
+        <h2>📋 Panel de Tickets</h2>
+
+        <p>Clientes registrados en NetHelp</p>
+
+        <input
+            type="text"
+            id="buscarCliente"
+            placeholder="🔎 Buscar por número, nombre o email..."
+        >
+
+        <div id="listaClientes"></div>
+
+    </div>
+
 </section>
 <section class="hero">
 <h1>Soluciones rápidas para tu Internet</h1>
