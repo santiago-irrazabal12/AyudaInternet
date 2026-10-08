@@ -1237,11 +1237,10 @@ async function cargarClientes() {
 
     lista.innerHTML = "<p>⏳ Cargando clientes...</p>";
 
-   const { data, error } = await supabaseClient
-    .rpc("consultar_mis_tickets", {
-        p_numero_cliente: numero,
-        p_email: email
-    });
+    const { data, error } = await supabaseClient
+        .from("tickets")
+        .select("numero_cliente, nombre, email, creado_en")
+        .order("creado_en", { ascending: false });
 
     if (error) {
         console.error(error);
@@ -1261,6 +1260,7 @@ async function cargarClientes() {
         const numero = ticket.numero_cliente || "Sin número";
 
         if (!clientes[numero]) {
+
             clientes[numero] = {
                 numero: numero,
                 nombre: ticket.nombre,
@@ -1268,7 +1268,54 @@ async function cargarClientes() {
                 tickets: 0,
                 ultimo: ticket.creado_en
             };
+
         }
+
+        clientes[numero].tickets++;
+    });
+
+    lista.innerHTML = "";
+
+    Object.values(clientes).forEach(cliente => {
+
+        const fecha = new Date(cliente.ultimo).toLocaleString("es-AR");
+
+        lista.innerHTML += `
+            <div class="cliente-card">
+
+                <h3>👤 ${cliente.nombre}</h3>
+
+                <p>
+                    <strong>Cliente:</strong>
+                    ${cliente.numero}
+                </p>
+
+                <p>
+                    <strong>📧 Email:</strong>
+                    ${cliente.email || "Sin email"}
+                </p>
+
+                <p>
+                    <strong>🎫 Tickets:</strong>
+                    ${cliente.tickets}
+                </p>
+
+                <p>
+                    <strong>📅 Último ticket:</strong>
+                    ${fecha}
+                </p>
+
+                <button
+                    class="ver-tickets"
+                    onclick="verTickets('${cliente.email}')"
+                >
+                    Ver tickets →
+                </button>
+
+            </div>
+        `;
+    });
+}
 
         clientes[numero].tickets++;
     });
@@ -1566,24 +1613,23 @@ async function resolverTicket(id) {
         </p>
     `;
 
-    const { data, error } = await supabaseClient
-        .from("tickets")
-        .select("*")
-        .eq("numero_cliente", numero)
-        .eq("email", email)
-        .order("creado_en", { ascending:false });
+   const { data, error } = await supabaseClient
+    .rpc("consultar_mis_tickets", {
+        p_numero_cliente: numero,
+        p_email: email
+    });
 
-    if (error) {
-        console.error(error);
+if (error) {
+    console.error(error);
 
-        resultado.innerHTML = `
-            <p style="color:#f87171; margin-top:20px;">
-                ❌ No se pudieron consultar los tickets.
-            </p>
-        `;
+    resultado.innerHTML = `
+        <p style="color:#f87171; margin-top:20px;">
+            ❌ No se pudieron consultar los tickets.
+        </p>
+    `;
 
-        return;
-    }
+    return;
+}
 
     if (!data || data.length === 0) {
         resultado.innerHTML = `
