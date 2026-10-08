@@ -1237,10 +1237,11 @@ async function cargarClientes() {
 
     lista.innerHTML = "<p>⏳ Cargando clientes...</p>";
 
-    const { data, error } = await supabaseClient
-        .from("tickets")
-        .select("numero_cliente, nombre, email, creado_en")
-        .order("creado_en", { ascending: false });
+   const { data, error } = await supabaseClient
+    .rpc("consultar_mis_tickets", {
+        p_numero_cliente: numero,
+        p_email: email
+    });
 
     if (error) {
         console.error(error);
