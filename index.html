@@ -1006,10 +1006,12 @@ const supabaseClient = window.supabase.createClient(
         return;
     }
 
-    alert("✅ Bienvenido al panel de operador");
+document.getElementById("loginOperador").style.display = "none";
+document.getElementById("panelOperador").style.display = "block";
+
+cargarClientes();
 
 });
-
 document.getElementById("ticketForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
@@ -1054,7 +1056,70 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
     boton.disabled = false;
     boton.textContent = "Enviar Ticket";
 });
+async function cargarClientes() {
 
+    const lista = document.getElementById("listaClientes");
+
+    lista.innerHTML = "<p>⏳ Cargando clientes...</p>";
+
+    const { data, error } = await supabaseClient
+        .from("tickets")
+        .select("numero_cliente, nombre, email, creado_en")
+        .order("creado_en", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        lista.innerHTML = "<p>❌ No se pudieron cargar los clientes.</p>";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        lista.innerHTML = "<p>No hay tickets registrados todavía.</p>";
+        return;
+    }
+
+    const clientes = {};
+
+    data.forEach(ticket => {
+
+        const numero = ticket.numero_cliente || "Sin número";
+
+        if (!clientes[numero]) {
+            clientes[numero] = {
+                numero: numero,
+                nombre: ticket.nombre,
+                email: ticket.email,
+                tickets: 0,
+                ultimo: ticket.creado_en
+            };
+        }
+
+        clientes[numero].tickets++;
+    });
+
+    lista.innerHTML = "";
+
+    Object.values(clientes).forEach(cliente => {
+
+        const fecha = new Date(cliente.ultimo).toLocaleString("es-AR");
+
+        lista.innerHTML += `
+            <div class="cliente-card">
+
+                <h3>👤 ${cliente.nombre}</h3>
+
+                <p><strong>Cliente:</strong> ${cliente.numero}</p>
+
+                <p><strong>Email:</strong> ${cliente.email || "Sin email"}</p>
+
+                <p><strong>🎫 Tickets realizados:</strong> ${cliente.tickets}</p>
+
+                <p><strong>📅 Último ticket:</strong> ${fecha}</p>
+
+            </div>
+        `;
+    });
+}
 </script>
 
 </body>
