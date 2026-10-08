@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -912,8 +910,7 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_KEY
 );
 
-document.getElementById("ticketForm").addEventListener("submit", async function(e){
-
+document.getElementById("ticketForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const nombre = this.querySelector('input[type="text"]').value.trim();
@@ -942,15 +939,10 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
         .select()
         .single();
 
-    if(error){
+    if (error) {
+        console.error(error);
 
-        console.error("ERROR SUPABASE:", error);
-
-        document.getElementById("popup").style.display = "flex";
-        document.getElementById("popupTitle").innerHTML = "❌ Error";
-        document.getElementById("popupText").innerHTML =
-            "No se pudo enviar el ticket.<br><br>" +
-            error.message;
+        alert("No se pudo crear el ticket: " + error.message);
 
         boton.disabled = false;
         boton.textContent = "Enviar Ticket";
@@ -958,19 +950,13 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
         return;
     }
 
-    document.getElementById("popup").style.display = "flex";
-    document.getElementById("popupTitle").innerHTML = "📩 Ticket enviado";
-    document.getElementById("popupText").innerHTML =
-        "Tu ticket fue registrado correctamente.<br><br>" +
-        "Número de ticket: <strong>#" + data.id + "</strong>";
+    alert("✅ Ticket creado correctamente. Número: #" + data.id);
 
     this.reset();
 
     boton.disabled = false;
     boton.textContent = "Enviar Ticket";
-
 });
-
 
 </script>
 
