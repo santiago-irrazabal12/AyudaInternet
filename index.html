@@ -920,15 +920,15 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
     boton.disabled = true;
     boton.textContent = "Enviando...";
 
-    const { data, error } = await supabaseClient
-        .from("tickets")
-        .insert({
-            nombre: nombre,
-            email: email,
-            asunto: categoria + " - Prioridad " + prioridad,
-            descripcion: descripcion,
-            estado: "Abierto"
-        })
+ const { error } = await supabaseClient
+    .from("tickets")
+    .insert({
+        nombre: nombre,
+        email: email,
+        asunto: categoria + " - Prioridad " + prioridad,
+        descripcion: descripcion,
+        estado: "Abierto"
+    });
         .select()
         .single();
 
@@ -943,8 +943,7 @@ document.getElementById("ticketForm").addEventListener("submit", async function(
         return;
     }
 
-    alert("✅ Ticket creado correctamente. Número: #" + data.id);
-
+    alert("✅ Ticket creado correctamente.");
     this.reset();
 
     boton.disabled = false;
