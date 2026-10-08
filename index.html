@@ -1188,6 +1188,103 @@ async function cargarClientes() {
 `;
     });
 }
+     async function verTickets(email) {
+
+    const panel = document.getElementById("listaClientes");
+
+    panel.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:30px;">
+            <p>⏳ Cargando tickets...</p>
+        </div>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("tickets")
+        .select("*")
+        .eq("email", email)
+        .order("creado_en", { ascending: false });
+
+    if (error) {
+        console.error(error);
+
+        panel.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center;">
+                <p>❌ No se pudieron cargar los tickets.</p>
+                <button onclick="cargarClientes()">← Volver</button>
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        panel.innerHTML = `
+            <div style="grid-column:1/-1; text-align:center;">
+                <p>No hay tickets registrados.</p>
+                <button onclick="cargarClientes()">← Volver</button>
+            </div>
+        `;
+
+        return;
+    }
+
+    const cliente = data[0];
+
+    panel.innerHTML = `
+        <div style="grid-column:1/-1;">
+
+            <button onclick="cargarClientes()" style="
+                padding:10px 18px;
+                border:none;
+                border-radius:10px;
+                background:#2563eb;
+                color:white;
+                cursor:pointer;
+                margin-bottom:20px;
+            ">
+                ← Volver a clientes
+            </button>
+
+            <h2 style="color:#93c5fd;">
+                👤 ${cliente.nombre}
+            </h2>
+
+            <p style="color:#cbd5e1;">
+                ${cliente.email}
+            </p>
+
+            ${data.map(ticket => `
+                <div class="cliente-card">
+
+                    <h3>🎫 ${ticket.asunto}</h3>
+
+                    <p>
+                        <strong>Estado:</strong>
+                        ${ticket.estado}
+                    </p>
+
+                    <p>
+                        <strong>Descripción:</strong><br>
+                        ${ticket.descripcion}
+                    </p>
+
+                    <p>
+                        <strong>📅 Fecha:</strong>
+                        ${new Date(ticket.creado_en).toLocaleString("es-AR")}
+                    </p>
+
+                    ${
+                        ticket.respuesta
+                        ? `<p><strong>💬 Respuesta:</strong><br>${ticket.respuesta}</p>`
+                        : `<p style="color:#fbbf24;">⏳ Sin respuesta todavía</p>`
+                    }
+
+                </div>
+            `).join("")}
+
+        </div>
+    `;
+}
 </script>
 
 </body>
