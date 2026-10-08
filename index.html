@@ -713,6 +713,11 @@ footer{
     border-radius:12px;
     color:#e2e8f0;
 }
+     
+#consultar-ticket,
+#operador {
+    display: none;
+}
 </style>
 </head>
 
@@ -724,12 +729,14 @@ footer{
 </div>
 
 <nav>
-<a href="#">Inicio</a>
-<a href="#problemas">Problemas</a>
-<a href="#estado">Estado</a>
-<a href="#faq">FAQ</a>
-<a href="#ticket">Ticket</a>
-<a href="#operador">🔐 Operador</a>
+
+<a href="#" onclick="mostrarVista('inicio'); return false;">Inicio</a>
+<a href="#problemas" onclick="mostrarVista('inicio')">Problemas</a>
+<a href="#estado" onclick="mostrarVista('inicio')">Estado</a>
+<a href="#faq" onclick="mostrarVista('inicio')">FAQ</a>
+<a href="#ticket" onclick="mostrarVista('inicio')">Ticket</a>
+<a href="#" onclick="mostrarVista('consultar'); return false;">🔎 Consultar mis tickets</a>
+<a href="#" onclick="mostrarVista('operador'); return false;">🔐 Operador</a>
 </nav>
 </header>
      <section id="consultar-ticket">
@@ -993,6 +1000,21 @@ Enviar Ticket
 </footer>
 
 <script>
+     
+function mostrarVista(vista) {
+    const inicio = document.querySelector(".hero");
+    const contenido = document.querySelector(".container");
+    const consulta = document.getElementById("consultar-ticket");
+    const operador = document.getElementById("operador");
+
+    inicio.style.display = vista === "inicio" ? "" : "none";
+    contenido.style.display = vista === "inicio" ? "" : "none";
+
+    consulta.style.display = vista === "consultar" ? "flex" : "none";
+    operador.style.display = vista === "operador" ? "flex" : "none";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
 function buscarProblema(){
     let busqueda = document.getElementById("searchInput").value.toLowerCase().trim();
 
